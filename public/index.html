@@ -11,24 +11,27 @@
     <header>
         <input type="checkbox" name="" id="toggler">
         <label for="toggler"><i class="fa-solid fa-bars"></i></label>
-        <a href="#" class="logo">La Desesperanza</a>
+        <a href="index.html" class="logo">La Desesperanza</a>
 
         <nav class="navbar">
             <a href="#catalogo">Productos</a>
-            <a href="#clientes">Clientes</a>
+            <a href="#saldo" class="link-titulo">Saldo</a>
             <a href="#facturas">Facturas</a>
+            <a href="#">Cerrar Sesión</a>
         </nav>
         <div class="icons">
-            <i class="fa-solid fa-cart-shopping"></i>
+            <a href="carrito.html">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </a>
         </div>
     </header>
     <section class="inicio" id="inicio">
         <div class="contenido">
             <h3>Sabor casero, calidez en cada rebanada.</h3>
             <span>Donde la tradición y la pasión por la panadería se encuentran.</span>
-            <p> En cada bocado, podrás disfrutar del amor y dedicación que ponemos en nuestros productos, <br>
-            elaborados con ingredientes frescos y de la más alta calidad. Desde nuestro <br>
-            pan crujiente hasta los dulces que alegran el alma. <br>
+            <p> En cada bocado, podrás disfrutar del amor y dedicación que ponemos en <br>
+                nuestros productos, elaborados con ingredientes frescos y de la más alta calidad. <br>
+                Desde nuestro pan crujiente hasta los dulces que alegran el alma. <br>
            </p>
         </div>
     </section>
@@ -39,8 +42,19 @@
         </div>
 
     </section>
-
-
+    <section id="saldo">
+    <div class="cantidad">
+            <label>Saldo Disponible</label>
+            <form method="get" name="interes" onsubmit="return validar(this)" action="index.html">
+                <input class="cajas1" type="text" name="CA" id="CA">
+                <div class="boton-container">
+                    <input class="boton" type="submit" id="enviar" value="Enviar" >
+                <input class="boton" type="reset" id="reset" value="Reset" >
+                </div>
+                
+            </form>
+    </div>
+    </section>
 
 
 

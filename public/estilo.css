@@ -68,29 +68,85 @@ header .fa-bars{
 .inicio{
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     min-height: 100vh;
-    background: url(/public/imagenes/1\ fondo.avif) no-repeat;
+    background: url("./imagenes/fondo\ nav.jpg") no-repeat center center;
     background-size: cover;
     background-position: center;
 }
 .inicio .contenido{
     max-height: 50rem;
+    text-align: right;
 }
 .inicio .contenido h3{
     font-size: 4.5rem;
-    color: #EC9704;
+    color: #ffffff;
 }
 .inicio .contenido span{
     font-size: 2.5rem;
-    color: #C3B39D;
+    color: #2d0e00;
     padding: 1rem 0;
     line-height: 1.5;
 }
 .inicio .contenido p{
     font-size: 2rem;
-    color: #fcfdf8;
+    color: #c0a848;
     padding: 1rem 0;
     line-height: 1.5;
+}
+.cantidad {
+    display: block;
+    margin: 20px auto; /* Margen superior e inferior */
+    width: 90%; /* Ancho responsivo */
+    max-width: 300px; /* Ancho máximo */
+    height: 300px;
+    color: #000000;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #d7878a;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+input.cajas1 {
+    margin-top: 50px;
+    width: 80%; /* Ancho responsivo */
+    max-width: 300px; /* Ancho máximo */
+    height: 50px; /* Aumentar la altura */
+    padding: 10px; /* Espaciado interno */
+    font-size: medium; /* Tamaño de fuente */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 10px; /* Bordes redondeados */
+    
+}
+
+.boton {
+    width: 85px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 10px; /* Espacio entre los botones */
+}
+
+.boton-container {
+    display: flex; /* Usar Flexbox */
+    justify-content: center; /* Centrar los botones horizontalmente */
+    flex-wrap: wrap; /* Permitir que los botones se envuelvan en pantallas pequeñas */
+    margin-top: 20px; /* Espacio superior para los botones */
+}
+label {
+    display: block;
+    margin-top: 20px;
+    letter-spacing: 1px;
+    background-color: #b6c4a0;
+    border-radius: 10px;
+    font-size: large;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
