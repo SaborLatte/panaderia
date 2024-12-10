@@ -8,9 +8,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
+    "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
     "docktrack-web": "file:",
-    "express": "^4.21.1"
-  }
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "mysql2": "^3.11.5",
+    "pg": "^8.13.1"
+  },
+  "description": ""
 }

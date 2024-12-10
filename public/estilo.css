@@ -1,0 +1,282 @@
+*{
+    margin:0 ;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: .2s linear;
+}
+html{
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    overflow-x: hidden;
+}
+section{
+    padding: 2rem 9%;
+
+}
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background:#ffffff;
+    padding: 2rem 9%;
+    display: flex;
+    align-items:center;
+    justify-content:space-between;
+    z-index: 1000;
+    box-shadow: 0.5rem 1rem rgba(0, 0, 0, .1);
+}
+header .logo{
+    font-size: 3rem;
+    color: rgb(26, 16, 7);
+    font-weight: bolder;
+    align-items: flex-start;
+}
+header .navbar a{
+    font-size: 2rem;
+    padding: 0 3rem;
+    color: #68727f;
+}
+header .navbar a:hover{
+    color: rgb(26, 16, 7);
+}
+header .navbar button{
+    font-size: 2rem;
+    padding: 0 3rem;
+    color: #68727f;
+    background-color: transparent;
+}
+header .navbar button:hover{
+    color: rgb(26, 16, 7);
+}
+header .icons i{
+    font-size: 2.5rem;
+    color: #68727f ;
+    margin-left: 1.5 rem;
+}
+header .icons i:hover{
+    color: rgb(26, 16, 7);
+}
+header #toggler{
+    display: none;
+}
+header .fa-bars{
+    font-size: 3rem;
+    color:#68727f ;
+    border-radius: .5rem;
+    padding: .5rem 1.5rem;
+    cursor: pointer;
+    border: .1rem solid rgb(0, 0, 0,.3);
+    display: none;
+}
+.inicio{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 100vh;
+    background: url("./imagenes/fondo\ nav.jpg") no-repeat center center;
+    background-size: cover;
+    background-position: center;
+}
+.inicio .contenido{
+    max-height: 50rem;
+    text-align: right;
+}
+.inicio .contenido h3{
+    font-size: 4.5rem;
+    color: #ffffff;
+}
+.inicio .contenido span{
+    font-size: 2.5rem;
+    color: #2d0e00;
+    padding: 1rem 0;
+    line-height: 1.5;
+}
+.inicio .contenido p{
+    font-size: 2rem;
+    color: #c0a848;
+    padding: 1rem 0;
+    line-height: 1.5;
+}
+.inicio-2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    background: url("./imagenes/christmas-fir-branches-wooden-board.jpg") no-repeat center center;
+    background-size:cover;
+    background-position: center;
+}
+.inicio-2 .contenido{
+    max-height: 50rem;
+    text-align: right;
+}
+.inicio-2 .contenido h3{
+    font-size: 4.5rem;
+    color: #ffffff;
+}
+.cantidad {
+    display: block;
+    margin: 20px auto; /* Margen superior e inferior */
+    width: 90%; /* Ancho responsivo */
+    max-width: 300px; /* Ancho máximo */
+    height: 340px;
+    color: #000000;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #411e01;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+input.cajas1 {
+    margin-top: 30px;
+    width: 80%; /* Ancho responsivo */
+    max-width: 300px; /* Ancho máximo */
+    height: 50px; /* Aumentar la altura */
+    padding: 10px; /* Espaciado interno */
+    font-size: medium; /* Tamaño de fuente */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 10px; /* Bordes redondeados */
+    
+}
+input.cajas2 {
+    margin-top: 30px;
+    width: 80%; /* Ancho responsivo */
+    max-width: 300px; /* Ancho máximo */
+    height: 30px; /* Aumentar la altura */
+    padding: 10px; /* Espaciado interno */
+    font-size: medium; /* Tamaño de fuente */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 10px; /* Bordes redondeados */
+    
+}
+.cantidad-2 {
+    display: block;
+    float: left; /* Alinea hacia la izquierda */
+    margin: 20px; /* Ajusta los márgenes según sea necesario */
+    width: 90%; /* Ancho responsivo */
+    max-width: 300px;
+    width: 90%; /* Ancho responsivo */
+    max-width: 300px; /* Ancho máximo */
+    height: 340px;
+    color: #000000;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #411e01;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+.cantidad-2 .p{
+    margin-top: 3%;
+    font-size: 2rem;
+    color: #ffffff;
+}
+.cantidad-3 {
+    display: block;
+    float: left; /* Alinea hacia la izquierda */
+    margin: 20px; /* Ajusta los márgenes según sea necesario */
+    width: 90%; /* Ancho responsivo */
+    max-width: 300px;
+    width: 90%; /* Ancho responsivo */
+    max-width: 300px; /* Ancho máximo */
+    height: 340px;
+    color: #000000;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #411e01;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+.cantidad-3 .p{
+    margin-top: 3%;
+    font-size: 2rem;
+    color: #ffffff;
+}
+.boton {
+    width: 130px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 2px; /* Espacio entre los botones */
+}
+
+.boton-container {
+    display: flex; /* Usar Flexbox */
+    justify-content: center; /* Centrar los botones horizontalmente */
+    flex-wrap: wrap; /* Permitir que los botones se envuelvan en pantallas pequeñas */
+    margin-top: 20px; /* Espacio superior para los botones */
+
+}
+label {
+    display: block;
+    margin-top: 20px;
+    letter-spacing: 1px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    font-size: large;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width:991px) {
+    html{
+        font-size: 55%;
+    }
+    header{
+        padding: 2rem;
+    }
+}
+@media (max-width:768px){
+
+    header .fa-bars{
+        display: block;
+    }
+
+    header .navbar{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #eee;
+        border-top: .1rem solid rgba(0, 0, 0, .1);
+        clip-path: polygon(0 0, 100% 0, 100% 0,0 0);
+    }
+    header #toggler:checked ~ .navbar{
+        clip-path: polygon(0 0, 100% 0, 100% 100%,0% 100%);
+    }
+    header .navbar a{
+        margin: 1.5rem;
+        padding: 1.5rem;
+        background: #ffffff;
+        border: .1rem solid rgba(0, 0, 0, .1);
+        display: block;
+    }
+}
+@media (max-width:450px){
+    html{
+        font-size: 50%;
+    }
+}

@@ -1,0 +1,154 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Varela Round", serif;
+    font-weight: 500;
+    font-style: normal;
+    background: #D4B48C;
+    position: relative;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+body::before {
+    content: "";
+    position: fixed; /* Cambiado de absolute a fixed para cubrir toda la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Usar la altura de la ventana para garantizar cobertura total */
+    background-image: radial-gradient(circle, #4E2C22 1px, transparent 1px);
+    background-size: 24px 24px;
+    animation: moveParticles 20s linear infinite;
+    z-index: -2;
+}
+
+@keyframes moveParticles {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(20px, 20px);
+    }
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 3px 20px black;
+    position: fixed; /* Hace que el header se quede fijo */
+    top: 0; /* Se posiciona en la parte superior */
+    left: 0; /* Alineado al borde izquierdo */
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+    z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+}
+
+.n1 {
+    display: flex;
+    justify-content: space-around;
+    background-color: #4E2C22;
+    color: white;
+}
+
+.n1 h3 {
+    font-size: 25px;
+}
+
+.n2 {
+    background-color: #C49A6C;
+    height: 50px;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: #4E2C22;
+}
+
+.agregar {
+    background-color: white;
+    width: 60%;
+    height: 350px;
+    border-radius: 15px;
+    margin-left: 20%;
+    margin-top: 12%;
+}
+.agregar h3{
+    font-size: 30px;
+    color: #4E2C22;
+    padding-top: 20px;
+    text-align: center
+}
+.agregar label{
+    font-size: 18px;
+    margin-left: 70px;
+}
+form{
+    margin: 60px;
+}
+input[type="text"],[type="number"] {
+    margin-left: 20%;
+    padding: 5px 15px; /* Espaciado dentro del input */
+    font-size: 14px; /* Tamaño de la fuente */
+    border: none; /* Sin borde tradicional */
+    border-bottom: 2px solid #4E2C22; /* Línea inferior delgada de color */
+    outline: none; /* Elimina el contorno predeterminado */
+    background-color: transparent; /* Fondo transparente */
+    color: black; /* Color del texto */
+    transition: border-color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+/* Efecto de enfoque (cuando el campo está en uso) */
+input[type="text"]:focus {
+    border-bottom: 2px solid #D4B48C; /* Cambia el color de la línea a dorado cuando el input está enfocado */
+    color: #4E2C22; /* Cambia el color del texto al hacer focus */
+}
+
+/* Estilo para el placeholder (texto dentro del input cuando está vacío) */
+input[type="text"]::placeholder {
+    color: #8B5A2B; /* Gris claro para el placeholder */
+    opacity: 0.8; /* Ligera opacidad para el placeholder */
+}
+
+/* Estilo cuando el input está deshabilitado */
+input[type="text"]:disabled {
+    background-color: #E0E0E0; /* Fondo gris claro cuando está deshabilitado */
+    color: #9E9E9E; /* Texto gris cuando está deshabilitado */
+    cursor: not-allowed; /* Cambio de cursor para indicar que no es editable */
+}
+.btn-primary{
+    border: none;
+    width: 180px;
+    height: 30px;
+    margin-top: 20px;
+    margin-left: 35%;
+    color: #D4B48C;
+    background-color: #4E2C22;
+    border-radius: 10px;
+}
+.btn-primary:hover{
+    color: #4E2C22;
+    background-color: #D4B48C;
+}
+.btn-primary-2{
+    border: none;
+    width: 180px;
+    height: 30px;
+    align-items: flex-end;
+    color: #D4B48C;
+    background-color: #4E2C22;
+    border-radius: 10px;
+}
+.btn-primary-2:hover{
+    color: #4E2C22;
+    background-color: #D4B48C;
+}
