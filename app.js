@@ -294,9 +294,6 @@ app.post('/agregarProducto', (req, res) => {
         });
     });
 });
-
-
-// Obtener productos
 app.get('/obtenerProductos', (req, res) => {
     const idCliente = req.session.userId;
     if (!idCliente) {
@@ -339,8 +336,6 @@ align-items: center;">
         `);
     });
 });
-
-// Borrar producto
 app.post('/borrarProducto', (req, res) => {
     const idCliente = req.session.userId;
     if (!idCliente) {
@@ -362,9 +357,6 @@ app.post('/borrarProducto', (req, res) => {
         return res.send('<script>alert("Producto con ID ' + id + ' ha sido eliminado."); window.location.href = "/desarrollador.html";</script>');
     });
 });
-
-
-// Actualizar producto
 app.post('/actualizarProducto', (req, res) => {
     const idCliente = req.session.userId;
     if (!idCliente) {
@@ -620,7 +612,6 @@ app.get('/consultarSaldo',(req,res)=>{
     });
 
 });
-
 app.post('/agregarCarrito', (req, res) => {
     const { id_producto, cantidad } = req.body; // Obtenemos el id del producto y la cantidad
     const idCliente = req.session.userId;
@@ -832,7 +823,7 @@ app.get('/consultaCarrito', (req, res) => {
         // Enviar la respuesta con el HTML
         return res.send(`
             <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="text-center p-4 rounded shadow-lg" style="background-color: #f9f9f9; border: 1px solid #ccc; max-width: 800px; width: 100%;">
+            <div class="text-center p-4 rounded shadow-lg" style="background-color: #f9f9f9; border: 1px solid #ccc; max-width: 800px; width: 100%;">
         <!-- Título centrado -->
         <h2 class="text-warning mb-4">Carrito de Compras</h2>
         
@@ -870,6 +861,7 @@ app.get('/consultaCarrito', (req, res) => {
         `);
     });
 });
+
 app.post('/comprarCarrito', (req, res) => {
     const idCliente = req.session.userId;
 
@@ -957,7 +949,7 @@ app.post('/comprarCarrito', (req, res) => {
                 `);
             }
 
-            const saldoActual = parseFloat(resultadosSaldo[0].dinero);
+            const saldoActual = parseFloat(resultadosSaldo[0].monto);
 
             // Verificar que el cliente tiene suficiente saldo
             if (saldoActual < totalCarrito) {
