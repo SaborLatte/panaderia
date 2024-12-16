@@ -35,106 +35,114 @@ function checkSession(req, res, next) {
   next();
 }
 
-app.post('/register', checkSession, (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-      return res.status(400).send('Por favor, ingrese un nombre de usuario y una contraseña');
-  }
-  // Insertar nuevo cliente en la base de datos
-  con.query('INSERT INTO clientes (username, password,dinero) VALUES (?, ?,?)', [username, password,50], (err, result) => {
+app.post('/registro', checkSession, (req, res) => {
+    const { username, password } = req.body;
+  
+    if (!username || !password) {
+      return res.status(400).send('Por favor, ingresa un nombre de usuario y una contraseña');
+    }
+  
+    // Verificar si el usuario ya está registrado
+    con.query('SELECT * FROM clientes WHERE username = ?', [username], (err, result) => {
       if (err) {
-          console.log("Error al registrar usuario", err);
-          return alert('Error al registrar el usuario')
+        console.log('Error al verificar usuario', err);
+        return res.status(500).send('Error al verificar usuario');
+      }
+  
+      if (result.length > 0) {
+        return res.status(409).send('<script>alert("Usuario ya registrado"); window.location.href="/registro.html";</script>');
       }
 
-      // Obtener el usuario recién registrado
-      con.query('SELECT * FROM clientes WHERE username = ?', [username], (err, result) => {
+      con.query('INSERT INTO clientes (username, password, dinero) VALUES (?, ?, ?)', [username, password, 50], (err, result) => {
+        if (err) {
+          console.log('Error al registrar usuario', err);
+          return res.status(500).send('<script>alert("Error al registrar el usuario"); window.location.href="/registro.html";</script>');
+        }
+  
+        con.query('SELECT * FROM clientes WHERE username = ?', [username], (err, result) => {
           if (err) {
-              console.log('Error al obtener el usuario recién registrado', err);
-              return res.status(500).send('Error al obtener el usuario');
+            console.log('Error al obtener el usuario', err);
+            return res.status(500).send('Error al obtener el usuario');
           }
-
-          const user = result[0];  // El primer resultado que debería ser el único usuario con ese nombre
-
-          // Crear una sesión para el usuario registrado
-          req.session.userId = user.id_cliente;  // Asignar el ID del cliente
+  
+          const user = result[0]; 
+  
+          req.session.userId = user.id_cliente; // Asignar el ID del cliente
           req.session.username = user.username; // Asignar el nombre de usuario
-          req.session.role = 'Cliente';         // Asignar el rol de cliente
-
-          return res.redirect('/clien.html');  // Redirigir al cliente a su página después de iniciar sesión
+          req.session.role = 'Cliente'; // Asignar el rol de cliente
+  
+          return res.redirect('/clien.html'); // Redirigir al cliente a su página después de iniciar sesión
+        });
       });
+    });
   });
-});
-app.post('/loginu', checkSession, (req, res) => {
+  
+app.post('/login', checkSession, (req, res) => {
   const { username, password } = req.body;
-
-  // Validar que el nombre de usuario y la contraseña no estén vacíos
-  if (!username || !password) {
+if (!username || !password) {
       return res.send(`
           <script>
-              alert('Por favor, ingrese usuario y contraseña');
-              window.history.back();
+         alert('Por favor, ingrese usuario y contraseña');
+          window.history.back();
           </script>
       `);
-  }
-
-  // Consultar primero en la tabla `clientes`
+    }
   let sql = 'SELECT * FROM clientes WHERE username = ?';
   con.query(sql, [username], (err, result) => {
       if (err) {
-          console.log('Error en la consulta a la tabla clientes:', err);
-          return res.status(500).send('Error en el servidor');
+          console.log('Error en la consulta', err);
+          return res.status(500).send(`
+          <script>
+         alert('Usuario no valido');
+          window.history.back();
+          </script>
+            `);
       }
-
       if (result.length === 0) {
-          // Si no se encuentra en `clientes`, buscar en la tabla `usuarios`
-          console.log('Usuario no encontrado en la tabla clientes. Buscando en usuarios...');
+          console.log('Usuario no encontrado.');
           const secondarySql = 'SELECT * FROM usuarios WHERE username = ?';
           con.query(secondarySql, [username], (err, secondaryResult) => {
               if (err) {
-                  console.log('Error en la consulta a la tabla usuarios:', err);
-                  return res.status(500).send('Error en el servidor');
+                  console.log('Error en la consulta', err);
+                  return res.status(500).send(`
+                    <script>
+                   alert('Usuario no valido');
+                    window.history.back();
+                    </script>
+                      `);
               }
 
               if (secondaryResult.length === 0) {
-                  // Si no se encuentra en ambas tablas
                   return res.send(`
                       <script>
-                          alert('Usuario no encontrado en ninguna tabla');
+                          alert('Usuario no encontrado');
                           window.history.back();
                       </script>
                   `);
               }
-
-              // Usuario encontrado en la tabla `usuarios`
-              const user = secondaryResult[0];
-              console.log('Usuario encontrado en la tabla usuarios:', user);
-
-              if (password === user.password) {
-                  req.session.userId = user.id_usuario; // Ajusta el campo según tu tabla
-                  req.session.username = user.username;
-
-                  return res.redirect('/usuario.html'); // Redirigir a la página de usuario
-              } else {
-                  return res.send(`
-                      <script>
-                          alert('Contraseña incorrecta');
-                          window.history.back();
-                      </script>
-                  `);
-              }
+     const user = secondaryResult[0];
+    console.log('Usuario encontrado.', user);
+      if (password === user.password) {
+          req.session.userId = user.id_usuario; 
+          req.session.username = user.username;
+          return res.redirect('/usuario.html');
+    } else {
+          return res.send(`
+              <script>
+                  alert('Contraseña incorrecta');
+                  window.history.back();
+              </script>
+          `);
+         }
           });
       } else {
-          // Usuario encontrado en la tabla `clientes`
           const user = result[0];
-          console.log('Usuario encontrado en la tabla clientes:', user);
+          console.log('Usuario encontrado', user);
 
           if (password === user.password) {
-              req.session.userId = user.id_cliente; // Ajusta el campo según tu tabla
+              req.session.userId = user.id_cliente;
               req.session.username = user.username;
-
-              return res.redirect('/clien.html'); // Redirigir a la página del cliente
+              return res.redirect('/clien.html'); 
           } else {
               return res.send(`
                   <script>
@@ -146,11 +154,9 @@ app.post('/loginu', checkSession, (req, res) => {
       }
   });
 });
-app.post('/login', checkSession, (req, res) => {
+app.post('/logindes', checkSession, (req, res) => {
   const { username, password } = req.body;
-
-  // Validar que el nombre de usuario y la contraseña no estén vacíos
-  if (!username || !password) {
+if (!username || !password) {
       return res.send(`
           <script>
               alert('Por favor, ingrese usuario y contraseña');
@@ -158,17 +164,13 @@ app.post('/login', checkSession, (req, res) => {
           </script>
       `);
   }
-
-  // Consultar en la tabla `desarrolladores`
   const sql = 'SELECT * FROM desarrolladores WHERE username = ?';
   con.query(sql, [username], (err, result) => {
       if (err) {
-          console.log('Error en la consulta a la tabla desarrolladores:', err);
-          return res.status(500).send('Error en el servidor');
+          console.log('Error en la consulta', err);
+          return res.status(500).send('Error');
       }
-
       if (result.length === 0) {
-          // Si no se encuentra al desarrollador
           return res.send(`
               <script>
                   alert('Desarrollador no encontrado');
@@ -176,19 +178,15 @@ app.post('/login', checkSession, (req, res) => {
               </script>
           `);
       }
-
-      // Usuario encontrado en la tabla `desarrolladores`
-      const developer = result[0];
-      console.log('Desarrollador encontrado:', developer);
+    const developer = result[0];
+    console.log('Desarrollador encontrado:', developer);
 
       if (password === developer.password) {
-          // Crear la sesión para el desarrollador
           req.session.userId = developer.id_desarrollador;
           req.session.username = developer.username;
 
-          return res.redirect('/desarrollador.html'); // Redirigir a la página del desarrollador
+          return res.redirect('/desarrollador.html');
       } else {
-          // Contraseña incorrecta
           return res.send(`
               <script>
                   alert('Contraseña incorrecta');
@@ -211,7 +209,7 @@ function checkSessionRedirect(req, res, next) {
             </script>
         `);
     }
-    next(); // Si la sesión está activa, permite continuar con la solicitud
+    next(); 
 }
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
@@ -307,13 +305,43 @@ app.get('/obtenerProductos', (req, res) => {
             productosHTML += `<tr><td>${producto.id_producto}</td><td>${producto.nombre}</td><td>${producto.precio}</td><td>${producto.cantidad_stock}</td></tr>`;
         });
         return res.send(`
- <body style= "    margin: 0px;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Marmelad&family=Mona+Sans:ital,wght@0,200..900;1,200..900&family=Noto+Sans+KR:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&family=Varela+Round&display=swap');
+        </style>
+</head>
+<body style="margin: 0px;
 padding: 0px;
+font-family: Varela Round, serif;
+font-weight: 500;
+font-style: normal;
 background: #D4B48C;
 position: relative;
 justify-content: center;
 align-items: center;">
-        <div class="container d-flex justify-content-center align-items-center min-vh-100">
+<header style="display: flex;
+flex-direction: column;
+box-shadow: 3px 3px 20px black;
+position: fixed; /* Hace que el header se quede fijo */
+top: 0; /* Se posiciona en la parte superior */
+left: 0; /* Alineado al borde izquierdo */
+width: 100%; /* Ocupa todo el ancho de la pantalla */
+z-index: 1000; /* Asegura que el header esté por encima de otros elementos */" ><div class="n1" style="    display: flex;
+    justify-content: space-around;
+    background-color: #4E2C22;
+    color: white;     font-size: 15px;"><h1>La Desesperanza</h1> <h3>Bienvenido</h3></div>
+    <div class="n2" style="
+    background-color: #C49A6C;
+    height: 50px;"><ul style="    list-style: none;
+    display: flex;
+    justify-content: space-evenly;">
+        <li><a href="desarrollador.html" style="    text-decoration: none;
+    color: white;">Regresar</a></li>
+    </ul> </div></header>
+        <div class="lol" style="margin-top: 180px;">
             <div class="text-center">
                 <h2 class="text-warning"  style="font-size: 30px; color: #4E2C22; padding-top: 20px; font-family: Arial, Helvetica, sans-serif; text-align: center">Productos Disponibles</h2>
                 <table class="table table-bordered table-hover" style="font-size: 30px;  text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;width:800px; margin-left: 20%;">
@@ -329,7 +357,6 @@ align-items: center;">
                         ${productosHTML}
                     </tbody>
                 </table>
-            
             </div>
         </div>
 </body>
@@ -347,11 +374,11 @@ app.post('/borrarProducto', (req, res) => {
     con.query('DELETE FROM productos WHERE id_producto = ?', [id], (err, respuesta) => {
         if (err) {
             console.log("Error al borrar producto", err);
-            return res.send('<script>alert("Error al borrar producto"); window.location.href = "/desarrollador.html";</script>');
+            return res.send('<script>alert("Error al borrar el producto"); window.location.href = "/desarrollador.html";</script>');
         }
 
         if (respuesta.affectedRows === 0) {
-            return res.send('<script>alert("No se encontró el producto con el ID proporcionado."); window.location.href = "/desarrollador.html";</script>');
+            return res.send('<script>alert("No se encontró el producto."); window.location.href = "/desarrollador.html";</script>');
         }
 
         return res.send('<script>alert("Producto con ID ' + id + ' ha sido eliminado."); window.location.href = "/desarrollador.html";</script>');
@@ -1007,20 +1034,32 @@ app.post('/comprarCarrito', (req, res) => {
 
                 Promise.all(actualizarStock)
                     .then(() => {
-                        // Vaciar el carrito
-                        const deleteCarrito = 'DELETE FROM carrito WHERE id_cliente = ?';
-                        con.query(deleteCarrito, [idCliente], (err) => {
+                        // Insertar la factura en la tabla `facturas`
+                        const insertFactura = `INSERT INTO facturas (id_cliente, monto, fecha_emision) VALUES (?, ?, ?)`;
+                        const fechaEmision = new Date().toISOString().slice(0, 19).replace('T', ' '); // Fecha y hora actual
+                        
+                        // Usar un idPedido autogenerado si corresponde (supondré que este campo es auto-incremental en la DB)
+                        con.query(insertFactura, [idCliente, totalCarrito, fechaEmision], (err) => {
                             if (err) {
-                                console.error('Error al vaciar el carrito:', err);
-                                return res.status(500).send('Error al vaciar el carrito después de la compra.');
+                                console.error('Error al insertar la factura:', err);
+                                return res.status(500).send('Error al procesar la compra.');
                             }
 
-                            res.send(`
-                                <script>
-                                    alert('Compra realizada con éxito. Tu carrito ha sido vaciado.');
-                                    window.location.href = '/clien.html';
-                                </script>
-                            `);
+                            // Vaciar el carrito
+                            const deleteCarrito = 'DELETE FROM carrito WHERE id_cliente = ?';
+                            con.query(deleteCarrito, [idCliente], (err) => {
+                                if (err) {
+                                    console.error('Error al vaciar el carrito:', err);
+                                    return res.status(500).send('Error al vaciar el carrito después de la compra.');
+                                }
+
+                                res.send(`
+                                    <script>
+                                        alert('Compra realizada con éxito. Tu carrito ha sido vaciado.');
+                                        window.location.href = '/ticket';
+                                    </script>
+                                `);
+                            });
                         });
                     })
                     .catch(err => {
@@ -1031,6 +1070,101 @@ app.post('/comprarCarrito', (req, res) => {
         });
     });
 });
+
+app.get('/ticket', (req, res) => {
+    const idCliente = req.session.userId;
+
+    if (!idCliente) {
+        return res.send(`
+            <script>
+                alert('Debes iniciar sesión para ver tu ticket.');
+                window.location.href = '/index.html';
+            </script>
+        `);
+    }
+
+    const queryFactura = `
+        SELECT id_factura, monto, fecha_emision
+        FROM facturas
+        WHERE id_cliente = ?
+        ORDER BY fecha_emision DESC
+        LIMIT 1
+    `;
+
+    con.query(queryFactura, [idCliente], (err, resultados) => {
+        if (err) {
+            console.error('Error al obtener el ticket:', err);
+            return res.status(500).send('Error al cargar el ticket.');
+        }
+
+        if (resultados.length === 0) {
+            return res.send(`
+                <script>
+                    alert('No se encontró ningún ticket reciente.');
+                    window.location.href = '/clien.html';
+                </script>
+            `);
+        }
+
+        const ticketData = resultados[0];
+
+        // Retornar el HTML con los datos directamente
+        res.send(`
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Ticket de Compra</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 20px;
+                        line-height: 1.6;
+                    }
+                    h1 {
+                        color: #333;
+                    }
+                    .ticket {
+                        border: 1px solid #ccc;
+                        padding: 20px;
+                        margin-top: 20px;
+                        max-width: 600px;
+                        background-color: #f9f9f9;
+                    }
+                    .btn {
+                        display: inline-block;
+                        margin-top: 20px;
+                        padding: 10px 20px;
+                        background-color: #007BFF;
+                        color: #fff;
+                        text-decoration: none;
+                        border-radius: 5px;
+                    }
+                    .btn:hover {
+                        background-color: #0056b3;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Ticket de Compra</h1>
+                <div class="ticket">
+                    <p><strong>Número de Factura:</strong> ${ticketData.id_factura}</p>
+                    <p><strong>Monto Total:</strong> $${ticketData.monto}</p>
+                    <p><strong>Fecha de Emisión:</strong> ${new Date(ticketData.fecha_emision).toLocaleString()}</p>
+                </div>
+                <a href="/clien.html" class="btn">Volver</a>
+            </body>
+            </html>
+        `);
+    });
+});
+
+
+
+
+
+
 
 
 

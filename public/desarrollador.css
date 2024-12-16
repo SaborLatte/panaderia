@@ -6,8 +6,9 @@ body {
     font-style: normal;
     background: #D4B48C;
     position: relative;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
+    justify-content: center;
+    align-items: center;
+    color:#C49A6C;
 }
 
 body::before {
